@@ -1,0 +1,17 @@
+default:
+	similarity_metric: cosine
+	top_k: 3
+
+comparison:
+	candidate_a:
+		similarity_metric: dot
+		top_k: 3
+	candidate_b:
+		similarity_metric: cosine
+		top_k: 3
+
+decision:
+	selected: cosine
+	rationale: >-
+		Cosine normalization avoids over-favoring longer snippets in this small handwritten corpus,
+		which keeps ranking more stable for short operational queries.

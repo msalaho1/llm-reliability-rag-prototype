@@ -1,0 +1,74 @@
+[
+	{
+		"id": "doc-01",
+		"title": "Password Reset SLA",
+		"topic": "access",
+		"text": "Contractor password reset tickets are handled by access operations and should be completed within 4 business hours during the work week."
+	},
+	{
+		"id": "doc-02",
+		"title": "Vendor Onboarding Queue",
+		"topic": "routing",
+		"text": "Vendor onboarding requests belong in the access operations queue because that team verifies provisioning prerequisites and account ownership."
+	},
+	{
+		"id": "doc-03",
+		"title": "Sandbox Log Retention",
+		"topic": "retention",
+		"text": "Sandbox application logs are retained for 7 days, while production audit logs are retained for 30 days."
+	},
+	{
+		"id": "doc-04",
+		"title": "Refund Escalation Rule",
+		"topic": "billing",
+		"text": "Escalate a blocked refund request after 2 unsuccessful processor attempts, even if unrelated billing profile details changed recently."
+	},
+	{
+		"id": "doc-05",
+		"title": "Duplicate Invoice Ownership",
+		"topic": "billing",
+		"text": "Billing operations owns duplicate invoice issues that appear immediately after a plan downgrade or proration recalculation."
+	},
+	{
+		"id": "doc-06",
+		"title": "Merged Ticket Lifecycle",
+		"topic": "support",
+		"text": "If a merged ticket is older than 30 days, support should recreate the issue instead of reopening the original thread."
+	},
+	{
+		"id": "doc-07",
+		"title": "PII Deletion Verification",
+		"topic": "privacy",
+		"text": "A personal data deletion request must not be processed until account ownership is verified through the approved verification workflow."
+	},
+	{
+		"id": "doc-08",
+		"title": "Tenant Impact Incident Rule",
+		"topic": "incident",
+		"text": "Open a severity 2 incident when multiple tenants report active impact, even if the public status page is still green."
+	},
+	{
+		"id": "doc-09",
+		"title": "Security Exception Requirement",
+		"topic": "security",
+		"text": "Reject a security exception request until an explicit expiration date and business owner are provided."
+	},
+	{
+		"id": "doc-10",
+		"title": "Batch Retry Threshold",
+		"topic": "jobs",
+		"text": "A batch job is marked failed after 3 retries so downstream reconciliations do not loop indefinitely."
+	},
+	{
+		"id": "doc-11",
+		"title": "Reliability Review Notes",
+		"topic": "reliability",
+		"text": "Prompt reliability reviews should compare near-duplicate queries, track answer consistency, and flag cases where distractor details change the decision."
+	},
+	{
+		"id": "doc-12",
+		"title": "Monitoring Recommendations",
+		"topic": "monitoring",
+		"text": "Lightweight monitoring for retrieval services should start with request latency and retrieval hit rate, then expand to topic drift and guardrail trigger frequency."
+	}
+]

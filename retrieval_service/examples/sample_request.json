@@ -1,0 +1,5 @@
+{
+  "query": "What should the responder do if several tenants are failing but the status page is still green?",
+  "top_k": 3,
+  "similarity_metric": "cosine"
+}

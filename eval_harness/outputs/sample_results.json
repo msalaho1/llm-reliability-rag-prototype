@@ -1,0 +1,403 @@
+{
+  "dataset_name": "prompt_reliability_mini_harness",
+  "dataset_version": "1.0",
+  "run_metadata": {
+    "provider": "stub",
+    "command": null,
+    "timestamp_utc": "2026-04-11T15:24:23.344171+00:00",
+    "prompt_template": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: {query}"
+  },
+  "summary": {
+    "total_cases": 10,
+    "passed_cases": 9,
+    "case_pass_rate": 0.9,
+    "total_variants": 23,
+    "passed_variants": 22,
+    "variant_pass_rate": 0.9565,
+    "mean_consistency": 0.9102
+  },
+  "results": [
+    {
+      "case_id": "syn-01",
+      "source_type": "synthetic",
+      "test_type": "invariance",
+      "description": "Paraphrase, typo, and punctuation noise should not change the returned SLA.",
+      "expected_answer": "Contractor password resets are completed within 4 business hours.",
+      "scoring": {
+        "mode": "exact",
+        "threshold": 1.0
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "What is the password reset SLA for contractors?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: What is the password reset SLA for contractors?",
+          "output": "Contractor password resets are completed within 4 business hours.",
+          "latency_ms": 0.003,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "paraphrase",
+          "label": "paraphrase",
+          "query": "How quickly should a contractor get a password reset completed?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: How quickly should a contractor get a password reset completed?",
+          "output": "Contractor password resets are completed within 4 business hours.",
+          "latency_ms": 0.002,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "typo",
+          "label": "typo",
+          "query": "what is the contraktor password reset sla?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: what is the contraktor password reset sla?",
+          "output": "Contractor password resets are completed within 4 business hours.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "noise",
+          "label": "punctuation-noise",
+          "query": "Password reset SLA for contractors???",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Password reset SLA for contractors???",
+          "output": "Contractor password resets are completed within 4 business hours.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        }
+      ],
+      "consistency_score": 1.0,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "syn-02",
+      "source_type": "synthetic",
+      "test_type": "baseline",
+      "description": "Numeric thresholds should stay stable under light wording changes.",
+      "expected_answer": "A batch job is marked failed after 3 retries.",
+      "scoring": {
+        "mode": "regex",
+        "pattern": "3\\s+retries",
+        "threshold": 1.0
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "How many retries happen before a batch job is marked failed?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: How many retries happen before a batch job is marked failed?",
+          "output": "A batch job is marked failed after 3 retries.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "compact",
+          "label": "compact-ask",
+          "query": "Retries before batch failure?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Retries before batch failure?",
+          "output": "A batch job is marked failed after 3 retries.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        }
+      ],
+      "consistency_score": 1.0,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "syn-03",
+      "source_type": "synthetic",
+      "test_type": "baseline",
+      "description": "Routing questions should return the canonical queue name.",
+      "expected_answer": "Vendor onboarding tickets go to the access operations queue.",
+      "scoring": {
+        "mode": "semantic",
+        "threshold": 0.7
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "Which queue handles vendor onboarding tickets?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Which queue handles vendor onboarding tickets?",
+          "output": "Vendor onboarding tickets go to the access operations queue.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "paraphrase",
+          "label": "paraphrase",
+          "query": "Where should vendor onboarding requests be routed?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Where should vendor onboarding requests be routed?",
+          "output": "Vendor onboarding requests should go to the access operations queue.",
+          "latency_ms": 0.001,
+          "score": 0.8,
+          "passed": true
+        }
+      ],
+      "consistency_score": 0.8,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "syn-04",
+      "source_type": "synthetic",
+      "test_type": "baseline",
+      "description": "Retention windows should remain exact under terse phrasing.",
+      "expected_answer": "Sandbox logs are retained for 7 days.",
+      "scoring": {
+        "mode": "exact",
+        "threshold": 1.0
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "What retention period applies to sandbox logs?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: What retention period applies to sandbox logs?",
+          "output": "Sandbox logs are retained for 7 days.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "short",
+          "label": "short-form",
+          "query": "Sandbox log retention?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Sandbox log retention?",
+          "output": "Sandbox logs are retained for 7 days.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        }
+      ],
+      "consistency_score": 1.0,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "syn-05",
+      "source_type": "synthetic",
+      "test_type": "perturbation",
+      "description": "Instruction order and distractor details may cause drift even though the answer should stay the same.",
+      "expected_answer": "Escalate a blocked refund request after 2 unsuccessful processor attempts.",
+      "scoring": {
+        "mode": "semantic",
+        "threshold": 0.68
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "When should an agent escalate a blocked refund request?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: When should an agent escalate a blocked refund request?",
+          "output": "Escalate a blocked refund request after 2 unsuccessful processor attempts.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "reordered",
+          "label": "instruction-order",
+          "query": "Answer briefly. Before you answer, consider whether this is about refunds or chargebacks. When should an agent escalate a blocked refund request?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Answer briefly. Before you answer, consider whether this is about refunds or chargebacks. When should an agent escalate a blocked refund request?",
+          "output": "Escalate the blocked refund after 2 unsuccessful processor attempts.",
+          "latency_ms": 0.001,
+          "score": 0.9333,
+          "passed": true
+        },
+        {
+          "variant_id": "distractor",
+          "label": "distractor-detail",
+          "query": "A blocked refund request also mentions that the customer changed billing countries last month. When should the agent escalate it?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: A blocked refund request also mentions that the customer changed billing countries last month. When should the agent escalate it?",
+          "output": "Escalate the blocked refund request after the second failed processor attempt, ignoring unrelated billing-country changes.",
+          "latency_ms": 0.001,
+          "score": 0.5,
+          "passed": false
+        }
+      ],
+      "consistency_score": 0.7167,
+      "all_variants_passed": false
+    },
+    {
+      "case_id": "real-01",
+      "source_type": "redacted_real_world",
+      "test_type": "baseline",
+      "description": "Redacted billing ownership edge case drawn from prior eval work.",
+      "expected_answer": "Billing operations owns duplicate invoice issues after plan downgrades.",
+      "scoring": {
+        "mode": "semantic",
+        "threshold": 0.72
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "A customer was billed twice after a plan downgrade. Which team owns that issue?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: A customer was billed twice after a plan downgrade. Which team owns that issue?",
+          "output": "Billing operations owns duplicate invoice issues after plan downgrades.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "paraphrase",
+          "label": "paraphrase",
+          "query": "Who should handle a duplicate invoice created right after a downgrade?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Who should handle a duplicate invoice created right after a downgrade?",
+          "output": "Billing operations owns duplicate invoice issues after downgrades.",
+          "latency_ms": 0.001,
+          "score": 0.9333,
+          "passed": true
+        }
+      ],
+      "consistency_score": 0.9333,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "real-02",
+      "source_type": "redacted_real_world",
+      "test_type": "baseline",
+      "description": "Merged-ticket lifecycle decision with a clear recreate versus reopen boundary.",
+      "expected_answer": "Tickets merged more than 30 days ago should be recreated, not reopened.",
+      "scoring": {
+        "mode": "regex",
+        "pattern": "recreated,? not reopened",
+        "threshold": 1.0
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "A user wants to reopen a merged ticket that was closed over 30 days ago. What should support do?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: A user wants to reopen a merged ticket that was closed over 30 days ago. What should support do?",
+          "output": "Tickets merged more than 30 days ago should be recreated, not reopened.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "compact",
+          "label": "compact-ask",
+          "query": "Merged ticket older than 30 days: reopen or recreate?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Merged ticket older than 30 days: reopen or recreate?",
+          "output": "Tickets older than 30 days should be recreated, not reopened.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        }
+      ],
+      "consistency_score": 0.8182,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "real-03",
+      "source_type": "redacted_real_world",
+      "test_type": "baseline",
+      "description": "Privacy workflow should enforce verification before action.",
+      "expected_answer": "Request account verification before processing a PII deletion request.",
+      "scoring": {
+        "mode": "exact",
+        "threshold": 1.0
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "A PII deletion request arrives without an account identifier. What is the next step?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: A PII deletion request arrives without an account identifier. What is the next step?",
+          "output": "Request account verification before processing a PII deletion request.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "paraphrase",
+          "label": "paraphrase",
+          "query": "No account ID was included with a deletion request for personal data. What should happen first?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: No account ID was included with a deletion request for personal data. What should happen first?",
+          "output": "Request account verification before processing a PII deletion request.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        }
+      ],
+      "consistency_score": 1.0,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "real-04",
+      "source_type": "redacted_real_world",
+      "test_type": "baseline",
+      "description": "Incident escalation should follow customer impact, not the current status-page color.",
+      "expected_answer": "Open a severity 2 incident when multiple tenants are impacted despite a green status page.",
+      "scoring": {
+        "mode": "semantic",
+        "threshold": 0.7
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "The status page is green, but several tenants have confirmed errors. What should the on-call responder do?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: The status page is green, but several tenants have confirmed errors. What should the on-call responder do?",
+          "output": "Open a severity 2 incident when multiple tenants are impacted despite a green status page.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "paraphrase",
+          "label": "paraphrase",
+          "query": "Multiple tenants are failing even though the public status looks healthy. What incident action is required?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: Multiple tenants are failing even though the public status looks healthy. What incident action is required?",
+          "output": "Open a severity 2 incident if multiple tenants are impacted even when the status page remains green.",
+          "latency_ms": 0.001,
+          "score": 0.8333,
+          "passed": true
+        }
+      ],
+      "consistency_score": 0.8333,
+      "all_variants_passed": true
+    },
+    {
+      "case_id": "real-05",
+      "source_type": "redacted_real_world",
+      "test_type": "baseline",
+      "description": "Approval workflows should reject incomplete exception requests.",
+      "expected_answer": "Reject the security exception request until an expiration date is provided.",
+      "scoring": {
+        "mode": "exact",
+        "threshold": 1.0
+      },
+      "variant_results": [
+        {
+          "variant_id": "baseline",
+          "label": "baseline",
+          "query": "A security exception request has no expiration date. What should the reviewer do?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: A security exception request has no expiration date. What should the reviewer do?",
+          "output": "Reject the security exception request until an expiration date is provided.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        },
+        {
+          "variant_id": "paraphrase",
+          "label": "paraphrase",
+          "query": "The request asks for a security exception but leaves out the expiry. What is the correct decision?",
+          "prompt": "You are evaluating prompt reliability. Answer with exactly one short sentence.\nQuestion: The request asks for a security exception but leaves out the expiry. What is the correct decision?",
+          "output": "Reject the security exception request until an expiration date is provided.",
+          "latency_ms": 0.001,
+          "score": 1.0,
+          "passed": true
+        }
+      ],
+      "consistency_score": 1.0,
+      "all_variants_passed": true
+    }
+  ]
+}

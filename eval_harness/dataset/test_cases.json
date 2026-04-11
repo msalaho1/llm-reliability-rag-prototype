@@ -1,0 +1,263 @@
+{
+	"dataset_name": "prompt_reliability_mini_harness",
+	"version": "1.0",
+	"synthetic_generation_rules": [
+		"Start from a canonical policy fact with one atomic answer containing a single owner, threshold, or action.",
+		"Generate variants by applying synonym swaps, typo insertion, punctuation noise, and formatting noise while preserving intent.",
+		"Keep the answer style constrained to one short sentence so exact and semantic comparisons remain stable."
+	],
+	"real_world_redaction_policy": [
+		"Real-world cases are redacted composites based on prior support, billing, and incident-management evaluation work.",
+		"Product names, queue names, account identifiers, and internal team labels were generalized or replaced.",
+		"Answers preserve the decision boundary but remove any sensitive operational details."
+	],
+	"cases": [
+		{
+			"case_id": "syn-01",
+			"source_type": "synthetic",
+			"test_type": "invariance",
+			"description": "Paraphrase, typo, and punctuation noise should not change the returned SLA.",
+			"expected_answer": "Contractor password resets are completed within 4 business hours.",
+			"scoring": {
+				"mode": "exact",
+				"threshold": 1.0
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "What is the password reset SLA for contractors?"
+				},
+				{
+					"variant_id": "paraphrase",
+					"label": "paraphrase",
+					"query": "How quickly should a contractor get a password reset completed?"
+				},
+				{
+					"variant_id": "typo",
+					"label": "typo",
+					"query": "what is the contraktor password reset sla?"
+				},
+				{
+					"variant_id": "noise",
+					"label": "punctuation-noise",
+					"query": "Password reset SLA for contractors???"
+				}
+			]
+		},
+		{
+			"case_id": "syn-02",
+			"source_type": "synthetic",
+			"test_type": "baseline",
+			"description": "Numeric thresholds should stay stable under light wording changes.",
+			"expected_answer": "A batch job is marked failed after 3 retries.",
+			"scoring": {
+				"mode": "regex",
+				"pattern": "3\\s+retries",
+				"threshold": 1.0
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "How many retries happen before a batch job is marked failed?"
+				},
+				{
+					"variant_id": "compact",
+					"label": "compact-ask",
+					"query": "Retries before batch failure?"
+				}
+			]
+		},
+		{
+			"case_id": "syn-03",
+			"source_type": "synthetic",
+			"test_type": "baseline",
+			"description": "Routing questions should return the canonical queue name.",
+			"expected_answer": "Vendor onboarding tickets go to the access operations queue.",
+			"scoring": {
+				"mode": "semantic",
+				"threshold": 0.7
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "Which queue handles vendor onboarding tickets?"
+				},
+				{
+					"variant_id": "paraphrase",
+					"label": "paraphrase",
+					"query": "Where should vendor onboarding requests be routed?"
+				}
+			]
+		},
+		{
+			"case_id": "syn-04",
+			"source_type": "synthetic",
+			"test_type": "baseline",
+			"description": "Retention windows should remain exact under terse phrasing.",
+			"expected_answer": "Sandbox logs are retained for 7 days.",
+			"scoring": {
+				"mode": "exact",
+				"threshold": 1.0
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "What retention period applies to sandbox logs?"
+				},
+				{
+					"variant_id": "short",
+					"label": "short-form",
+					"query": "Sandbox log retention?"
+				}
+			]
+		},
+		{
+			"case_id": "syn-05",
+			"source_type": "synthetic",
+			"test_type": "perturbation",
+			"description": "Instruction order and distractor details may cause drift even though the answer should stay the same.",
+			"expected_answer": "Escalate a blocked refund request after 2 unsuccessful processor attempts.",
+			"scoring": {
+				"mode": "semantic",
+				"threshold": 0.68
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "When should an agent escalate a blocked refund request?"
+				},
+				{
+					"variant_id": "reordered",
+					"label": "instruction-order",
+					"query": "Answer briefly. Before you answer, consider whether this is about refunds or chargebacks. When should an agent escalate a blocked refund request?"
+				},
+				{
+					"variant_id": "distractor",
+					"label": "distractor-detail",
+					"query": "A blocked refund request also mentions that the customer changed billing countries last month. When should the agent escalate it?"
+				}
+			]
+		},
+		{
+			"case_id": "real-01",
+			"source_type": "redacted_real_world",
+			"test_type": "baseline",
+			"description": "Redacted billing ownership edge case drawn from prior eval work.",
+			"expected_answer": "Billing operations owns duplicate invoice issues after plan downgrades.",
+			"scoring": {
+				"mode": "semantic",
+				"threshold": 0.72
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "A customer was billed twice after a plan downgrade. Which team owns that issue?"
+				},
+				{
+					"variant_id": "paraphrase",
+					"label": "paraphrase",
+					"query": "Who should handle a duplicate invoice created right after a downgrade?"
+				}
+			]
+		},
+		{
+			"case_id": "real-02",
+			"source_type": "redacted_real_world",
+			"test_type": "baseline",
+			"description": "Merged-ticket lifecycle decision with a clear recreate versus reopen boundary.",
+			"expected_answer": "Tickets merged more than 30 days ago should be recreated, not reopened.",
+			"scoring": {
+				"mode": "regex",
+				"pattern": "recreated,? not reopened",
+				"threshold": 1.0
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "A user wants to reopen a merged ticket that was closed over 30 days ago. What should support do?"
+				},
+				{
+					"variant_id": "compact",
+					"label": "compact-ask",
+					"query": "Merged ticket older than 30 days: reopen or recreate?"
+				}
+			]
+		},
+		{
+			"case_id": "real-03",
+			"source_type": "redacted_real_world",
+			"test_type": "baseline",
+			"description": "Privacy workflow should enforce verification before action.",
+			"expected_answer": "Request account verification before processing a PII deletion request.",
+			"scoring": {
+				"mode": "exact",
+				"threshold": 1.0
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "A PII deletion request arrives without an account identifier. What is the next step?"
+				},
+				{
+					"variant_id": "paraphrase",
+					"label": "paraphrase",
+					"query": "No account ID was included with a deletion request for personal data. What should happen first?"
+				}
+			]
+		},
+		{
+			"case_id": "real-04",
+			"source_type": "redacted_real_world",
+			"test_type": "baseline",
+			"description": "Incident escalation should follow customer impact, not the current status-page color.",
+			"expected_answer": "Open a severity 2 incident when multiple tenants are impacted despite a green status page.",
+			"scoring": {
+				"mode": "semantic",
+				"threshold": 0.7
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "The status page is green, but several tenants have confirmed errors. What should the on-call responder do?"
+				},
+				{
+					"variant_id": "paraphrase",
+					"label": "paraphrase",
+					"query": "Multiple tenants are failing even though the public status looks healthy. What incident action is required?"
+				}
+			]
+		},
+		{
+			"case_id": "real-05",
+			"source_type": "redacted_real_world",
+			"test_type": "baseline",
+			"description": "Approval workflows should reject incomplete exception requests.",
+			"expected_answer": "Reject the security exception request until an expiration date is provided.",
+			"scoring": {
+				"mode": "exact",
+				"threshold": 1.0
+			},
+			"query_variants": [
+				{
+					"variant_id": "baseline",
+					"label": "baseline",
+					"query": "A security exception request has no expiration date. What should the reviewer do?"
+				},
+				{
+					"variant_id": "paraphrase",
+					"label": "paraphrase",
+					"query": "The request asks for a security exception but leaves out the expiry. What is the correct decision?"
+				}
+			]
+		}
+	]
+}

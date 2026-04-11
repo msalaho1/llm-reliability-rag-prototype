@@ -1,5 +1,7 @@
 # llm-reliability-rag-prototype
 
+# note : I was not able to record the walkthrough video before the submission deadline. I included written walkthrough notes in the repository, including submission notes and Loom talking points, so the implementation decisions and tradeoffs are documented clearly.
+
 A repo for two assessment tasks:
 
 1. prompt reliability evaluation for duplicate queries

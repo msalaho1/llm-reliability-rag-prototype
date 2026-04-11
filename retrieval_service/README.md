@@ -1,7 +1,5 @@
 # Retrieval Service
 
-# note : I was not able to record the walkthrough video before the submission deadline. I included written walkthrough notes in the repository, including submission notes and Loom talking points, so the implementation decisions and tradeoffs are documented clearly.
-
 Minimal retrieval-augmented answering service built with FastAPI. It uses a small handwritten corpus, lexical retrieval, one practical guardrail, and a very simple answer synthesizer that leans on the top-ranked snippet.
 
 This service is intentionally small. The goal was to show a complete retrieval path with one endpoint, one guardrail, one ranking comparison, and enough operational thinking to justify the choices.
